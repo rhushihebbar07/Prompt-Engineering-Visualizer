@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Prompt Engineering Visualizer Pro</title>
+<style>
+:root{--bg:#07111f;--panel:#0c1728;--panel2:#101d31;--line:#223550;--text:#eaf2ff;--muted:#91a3bd;--accent:#5b8cff;--cyan:#20d7ff;--green:#36d399;--yellow:#f6c85f;--red:#ff647c}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 50% -20%,#193457 0,#07111f 42%,#050b14 100%);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif}button,input,select,textarea{font:inherit}button{cursor:pointer}.app{max-width:1500px;margin:auto;padding:18px}.head{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:14px}.title h1{font-size:28px;margin:0}.title p{margin:3px 0;color:var(--muted)}.badge{padding:7px 10px;border:1px solid var(--line);border-radius:999px;color:#b7c7de;background:#0b1627}.tabs{display:flex;gap:6px;overflow:auto;padding-bottom:10px}.tabs button{white-space:nowrap;background:#0b1627;color:var(--muted);border:1px solid var(--line);padding:9px 13px;border-radius:9px}.tabs button.active{color:#fff;background:#18345e;border-color:#4779c8}.page{display:none}.page.active{display:block}.layout{display:grid;grid-template-columns:330px minmax(0,1fr);gap:14px}.card{background:linear-gradient(180deg,#0e1a2c,#0a1422);border:1px solid var(--line);border-radius:14px;padding:14px;box-shadow:0 18px 55px #0004}.card h2{font-size:15px;margin:0 0 10px}.muted{color:var(--muted);font-size:12px}.control{margin:12px 0}.control label{display:flex;justify-content:space-between;color:#cbd8ea;font-size:12px;margin-bottom:5px}.value{color:var(--cyan);font-weight:800}.range{width:100%;accent-color:var(--accent)}select,input,textarea{width:100%;background:#07111e;color:var(--text);border:1px solid #29405f;border-radius:8px;padding:9px;outline:none}textarea{min-height:120px;resize:vertical}input:focus,textarea:focus,select:focus{border-color:var(--cyan)}.buttons{display:flex;gap:7px;flex-wrap:wrap}.btn{background:#13233a;color:#eaf2ff;border:1px solid #2a4568;border-radius:8px;padding:8px 11px}.btn.primary{background:#2763bb;border-color:#3f86ef}.btn.active{background:#315d9c}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}.viz{min-height:450px;position:relative;overflow:hidden}.vizhead{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-bottom:10px}.mode{display:flex;gap:5px}.mode button{font-size:11px;padding:6px 8px}.chart{width:100%;height:390px;background:linear-gradient(180deg,#07111d,#091423);border:1px solid #1c2e47;border-radius:11px;position:relative}.chart canvas{width:100%;height:100%;display:block}.legend{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px;font-size:11px;color:var(--muted)}.dot{width:9px;height:9px;border-radius:50%;display:inline-block;margin-right:4px}.tokenlist{max-height:400px;overflow:auto}.tokrow{display:grid;grid-template-columns:38px 1fr 70px 90px;gap:8px;align-items:center;padding:7px;border-bottom:1px solid #17283d;font-size:12px}.tokrow .barbg{height:7px;background:#17283d;border-radius:10px;overflow:hidden}.tokrow .barfill{height:100%;background:linear-gradient(90deg,var(--accent),var(--cyan))}.selected{background:#15304f;border-radius:6px}.summary{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:10px}.stat{background:#081321;border:1px solid var(--line);border-radius:9px;padding:9px}.stat b{display:block;font-size:18px}.stat span{font-size:10px;color:var(--muted)}.pipeline{display:flex;gap:5px;align-items:center;overflow:auto;padding:5px 0}.node{min-width:105px;text-align:center;background:#081321;border:1px solid #29405f;border-radius:9px;padding:9px}.node b{display:block;font-size:11px}.node span{font-size:9px;color:var(--muted)}.arrow{color:#50719b}.promptbox{font-family:ui-monospace,Consolas,monospace;font-size:12px;line-height:1.6}.heat{display:grid;grid-template-columns:repeat(10,1fr);gap:4px}.heat div{height:35px;border-radius:5px;border:1px solid #203650;display:flex;align-items:center;justify-content:center;font-size:9px}.info{padding:9px;border-left:3px solid var(--cyan);background:#0a1a2a;font-size:11px;color:#b9c9dd}.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.mini{background:#0a1524;border:1px solid var(--line);border-radius:10px;padding:11px}.mini b{display:block;margin-bottom:5px}.compare{display:grid;grid-template-columns:1fr 1fr;gap:10px}.table{width:100%;border-collapse:collapse;font-size:12px}.table th,.table td{text-align:left;padding:8px;border-bottom:1px solid var(--line)}@media(max-width:1000px){.layout{grid-template-columns:1fr}.cards{grid-template-columns:1fr 1fr}}@media(max-width:650px){.grid2,.compare{grid-template-columns:1fr}.cards{grid-template-columns:1fr}.summary{grid-template-columns:1fr 1fr}.head{align-items:flex-start}.title h1{font-size:22px}}\n</style>
+</head>
+<body>
+<div class="app">
+<header class="head"><div class="title"><h1>🧠 Prompt Engineering Visualizer</h1><p>Explore tokens, probability distributions, temperature, Top-K, Top-P and prompt structure.</p></div><div class="badge">OFFLINE · NO API</div></header>
+<nav class="tabs" id="tabs">
+<button class="active" data-page="sampling">Sampling Lab</button>
+<button data-page="prompt">Prompt Anatomy</button>
+<button data-page="builder">Prompt Builder</button>
+<button data-page="techniques">Techniques</button>
+<button data-page="evaluation">Evaluation</button>
+</nav>
+
+<section class="page active" id="sampling">
+<div class="layout">
+<aside class="card">
+<h2>Sampling Controls</h2>
+<div class="control"><label>Example <span></span></label><select id="example"><option value="math">Math — 1 + 1 =</option><option value="poem">Poem — The moon is</option><option value="code">Code — function add(a,b)</option><option value="story">Story — Once upon a time</option></select></div>
+<div class="control"><label>Temperature <span class="value" id="tv">1.00</span></label><input class="range" id="temp" type="range" min="0" max="2" step=".01" value="1"></div>
+<div class="muted">Scales logits before softmax. Lower values sharpen the distribution; higher values flatten it.</div>
+<div class="control"><label>Top-P / Nucleus <span class="value" id="pv">1.00</span></label><input class="range" id="topP" type="range" min=".05" max="1" step=".01" value="1"></div>
+<div class="muted">Keeps the smallest probability set whose cumulative probability reaches P.</div>
+<div class="control"><label>Top-K <span class="value" id="kv">10</span></label><input class="range" id="topK" type="range" min="1" max="20" step="1" value="10"></div>
+<div class="muted">Keeps the K highest-probability candidates.</div>
+<div class="control"><label>Repetition penalty <span class="value" id="rv">1.00</span></label><input class="range" id="rep" type="range" min=".5" max="2" step=".01" value="1"></div>
+<div class="control"><label>Seed <span class="value" id="sv">42</span></label><input class="range" id="seed" type="range" min="0" max="999" value="42"></div>
+<div class="buttons"><button class="btn primary" id="sample">🎲 Sample next token</button><button class="btn" id="reset">Reset</button></div>
+<div class="info" style="margin-top:10px">This is an educational probability simulation, not a live LLM. Real token probabilities come from a model's logits.</div>
+</aside>
+<main>
+<div class="card viz">
+<div class="vizhead"><div><h2>Token Probability Distribution</h2><div class="muted" id="status">Temperature → Top-K → Top-P → sampling</div></div><div class="mode"><button class="btn active" data-mode="bar">Bar</button><button class="btn" data-mode="grid">Grid</button><button class="btn" data-mode="axis">Axis</button></div></div>
+<div class="chart"><canvas id="canvas"></canvas></div>
+<div class="legend"><span><i class="dot" style="background:#5b8cff"></i>Candidate probability</span><span><i class="dot" style="background:#ff647c"></i>Filtered</span><span><i class="dot" style="background:#36d399"></i>Eligible nucleus</span><span id="selectedLegend"></span></div>
+</div>
+<div class="summary"><div class="stat"><b id="active">10</b><span>Active tokens</span></div><div class="stat"><b id="mass">100%</b><span>Kept probability mass</span></div><div class="stat"><b id="entropy">—</b><span>Entropy</span></div><div class="stat"><b id="chosen">—</b><span>Sampled token</span></div></div>
+<div class="card" style="margin-top:12px"><h2>Ranked Token Candidates</h2><div class="tokenlist" id="tokenList"></div></div>
+</main>
+</div>
+</section>
+
+<section class="page" id="prompt">
+<div class="grid2">
+<div class="card"><h2>Prompt</h2><textarea id="promptText" class="promptbox">You are an expert Python tutor. Explain recursion to a first-year BCA student using a simple real-world analogy. Give one Python example and three short practice questions. Keep the explanation under 300 words.</textarea><div class="buttons" style="margin-top:8px"><button class="btn primary" id="analyzePrompt">Analyze</button></div></div>
+<div class="card"><h2>Prompt Structure</h2><div class="pipeline"><div class="node">🎭<b>Role</b><span>who</span></div><div class="arrow">→</div><div class="node">🎯<b>Task</b><span>what</span></div><div class="arrow">→</div><div class="node">📚<b>Context</b><span>why</span></div><div class="arrow">→</div><div class="node">📏<b>Constraints</b><span>rules</span></div><div class="arrow">→</div><div class="node">📤<b>Output</b><span>format</span></div></div><div id="promptReport"></div></div>
+</div>
+<div class="card" style="margin-top:12px"><h2>Prompt Signal Heatmap</h2><div class="heat" id="heat"></div><p class="muted">Illustrative token-level signal map showing how different prompt regions can be categorized.</p></div>
+</section>
+
+<section class="page" id="builder">
+<div class="card"><h2>Prompt Engineering Builder</h2><div class="cards" id="builderFields"></div><button class="btn primary" id="generatePrompt" style="margin-top:10px">Generate Prompt</button><div class="card" style="margin-top:10px;background:#07111d"><h2>Generated Prompt</h2><div class="promptbox" id="generated"></div></div></div>
+</section>
+
+<section class="page" id="techniques">
+<div class="card"><h2>Technique Map</h2><div class="cards" id="techCards"></div></div>
+</section>
+
+<section class="page" id="evaluation">
+<div class="grid2"><div class="card"><h2>Prompt Evaluation</h2><textarea id="evalPrompt">Explain AI.</textarea><button class="btn primary" id="eval" style="margin-top:8px">Evaluate structure</button></div><div class="card"><h2>Heuristic Score</h2><div id="score"></div></div></div>
+<div class="card" style="margin-top:12px"><h2>Evaluation Dimensions</h2><table class="table"><tr><th>Dimension</th><th>What to inspect</th></tr><tr><td>Clarity</td><td>Is the requested task unambiguous?</td></tr><tr><td>Context</td><td>Does the model have the relevant background?</td></tr><tr><td>Specificity</td><td>Are audience, scope and details explicit?</td></tr><tr><td>Constraints</td><td>Are limits, exclusions and boundaries stated?</td></tr><tr><td>Output schema</td><td>Is the expected response structure clear?</td></tr><tr><td>Grounding</td><td>Is source/reference material supplied when needed?</td></tr><tr><td>Robustness</td><td>Does it handle ambiguous or adversarial input?</td></tr><tr><td>Testability</td><td>Can success be evaluated consistently?</td></tr></table></div>
+</section>
+</div>
+<script>
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+$$('#tabs button').forEach(b=>b.onclick=()=>{$$('#tabs button').forEach(x=>x.classList.remove('active'));b.classList.add('active');$$('.page').forEach(x=>x.classList.remove('active'));$('#'+b.dataset.page).classList.add('active')});
+
+const examples={
+math:{prompt:'1 + 1 =',tokens:['2','3','1','0','4','5','7','8','10','11','12','-1','two','22','equal'],base:[.566,.206,.082,.041,.031,.026,.013,.012,.011,.011,.004,.003,.002,.001,.001]},
+poem:{prompt:'The moon is',tokens:['bright','a','like','silent','shining','over','watching','above','cold','beautiful','round','soft','silver','high','alone'],base:[.23,.16,.12,.10,.08,.07,.06,.05,.04,.03,.025,.02,.015,.012,.008]},
+code:{prompt:'function add(a,b)',tokens:['{','return','a','+','b',';','}','=>','(','a','b',')','const','sum','Math'],base:[.24,.17,.13,.12,.08,.06,.04,.035,.03,.025,.02,.015,.01,.008,.005]},
+story:{prompt:'Once upon a time',tokens:['there','in','a','the','young','small','far','long','kingdom','girl','boy','village','night','forest','world'],base:[.21,.15,.13,.11,.08,.07,.05,.045,.04,.035,.025,.018,.015,.01,.005]}
+};
+let ex=examples.math,mode='bar',chosen='—',seed=42;
+function softmax(vals,T){T=Math.max(.001,T);let z=vals.map(x=>Math.log(Math.max(x,1e-9))/T),m=Math.max(...z),e=z.map(v=>Math.exp(v-m)),s=e.reduce((a,b)=>a+b,0);return e.map(v=>v/s)}
+function getDist(){let T=+$('#temp').value,K=+$('#topK').value,P=+$('#topP').value;let probs=softmax(ex.base,T);let order=probs.map((p,i)=>({i,p})).sort((a,b)=>b.p-a.p);let allowed=new Set(order.slice(0,K).map(x=>x.i));let cumulative=0,nucleus=new Set();for(let x of order){if(!allowed.has(x.i))continue;if(cumulative<P||nucleus.size===0){nucleus.add(x.i);cumulative+=x.p}else break}let final=probs.map((p,i)=>allowed.has(i)&&nucleus.has(i)?p:0);let mass=final.reduce((a,b)=>a+b,0);if(mass>0)final=final.map(x=>x/mass);return{probs,final,order,mass,active:final.filter(x=>x>0).length}}
+function draw(){let c=$('#canvas'),r=c.getBoundingClientRect(),d=devicePixelRatio||1;c.width=r.width*d;c.height=r.height*d;let x=c.getContext('2d');x.scale(d,d);let W=r.width,H=r.height;x.fillStyle='#07111d';x.fillRect(0,0,W,H);let dta=getDist();let vals=dta.probs,fin=dta.final; if(mode==='grid')drawGrid(x,W,H,vals,fin);else if(mode==='axis')drawAxis(x,W,H,vals,fin);else drawBar(x,W,H,vals,fin);updateList(dta)}
+function drawBar(c,W,H,vals,fin){let left=48,bottom=38,top=25,gap=6,n=vals.length,bw=Math.max(10,(W-left-15)/n-gap);let max=Math.max(...vals);c.font='10px system-ui';for(let i=0;i<n;i++){let bh=(vals[i]/max)*(H-top-bottom-25),xx=left+i*(bw+gap),yy=H-bottom-bh;c.fillStyle=fin[i]>0?'#5b8cff':'#ff647c';c.fillRect(xx,yy,bw,bh);c.fillStyle='#b8c7dc';c.textAlign='center';c.fillText(ex.tokens[i],xx+bw/2,H-20);c.fillStyle='#dce8fb';c.fillText((vals[i]*100).toFixed(1)+'%',xx+bw/2,Math.max(14,yy-4))}c.strokeStyle='#31455f';c.beginPath();c.moveTo(left,H-bottom);c.lineTo(W-8,H-bottom);c.stroke()}
+function drawGrid(c,W,H,vals,fin){let cols=5,gap=10,cellW=(W-40-gap*(cols-1))/cols,cellH=(H-60-gap*2)/3;for(let i=0;i<vals.length;i++){let row=Math.floor(i/cols),col=i%cols,xx=20+col*(cellW+gap),yy=20+row*(cellH+gap);let a=Math.min(1,.15+vals[i]*4);c.fillStyle=fin[i]>0?`rgba(91,140,255,${a})`:`rgba(255,100,124,${a*.65})`;c.fillRect(xx,yy,cellW,cellH);c.strokeStyle='#29405f';c.strokeRect(xx,yy,cellW,cellH);c.fillStyle='#fff';c.font='bold 12px system-ui';c.fillText(ex.tokens[i],xx+8,yy+20);c.font='10px system-ui';c.fillStyle='#b9c9dd';c.fillText((vals[i]*100).toFixed(2)+'%',xx+8,yy+39)}}
+function drawAxis(c,W,H,vals,fin){let y=H/2,x0=35,x1=W-35;c.strokeStyle='#3c536e';c.lineWidth=2;c.beginPath();c.moveTo(x0,y);c.lineTo(x1,y);c.stroke();let max=Math.max(...vals);vals.forEach((p,i)=>{let xx=x0+(i/(vals.length-1))*(x1-x0),rad=8+35*p/max;c.beginPath();c.fillStyle=fin[i]>0?'#36d399':'#ff647c';c.globalAlpha=.85;c.arc(xx,y,rad,0,Math.PI*2);c.fill();c.globalAlpha=1;c.fillStyle='#fff';c.font='10px system-ui';c.textAlign='center';c.fillText(ex.tokens[i],xx,y+rad+14);c.fillStyle='#b9c9dd';c.fillText((p*100).toFixed(1)+'%',xx,y-rad-5)})}
+function updateList(d){let rows=d.order.map((o,r)=>{let i=o.i;return `<div class="tokrow ${finClass(i,d)}"><span>${r+1}</span><b>${escapeHtml(ex.tokens[i])}</b><div class="barbg"><div class="barfill" style="width:${Math.min(100,d.probs[i]*100/maxProb(d.probs))}%"></div></div><span>${(d.probs[i]*100).toFixed(2)}%</span></div>`}).join('');$('#tokenList').innerHTML=rows;$('#active').textContent=d.active;$('#mass').textContent=(d.mass*100).toFixed(1)+'%';let ent=-d.final.filter(p=>p>0).reduce((a,p)=>a+p*Math.log2(p),0);$('#entropy').textContent=ent.toFixed(2);$('#chosen').textContent=chosen}
+function finClass(i,d){return d.final[i]>0?'selected':''}function maxProb(a){return Math.max(...a)}function escapeHtml(s){return s.replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]))}
+function updateControls(){let v=(id,n,fmt)=>{$('#'+id).oninput=()=>{n.textContent=fmt?fmt($('#'+id).value):$('#'+id).value;draw()}};v('temp',$('#tv'),v=>Number(v).toFixed(2));v('topP',$('#pv'),v=>Number(v).toFixed(2));v('topK',$('#kv'));v('rep',$('#rv'),v=>Number(v).toFixed(2));v('seed',$('#sv'));draw()}
+$('#example').onchange=()=>{ex=examples[$('#example').value];chosen='—';draw()};$$('.mode button').forEach(b=>b.onclick=()=>{$$('.mode button').forEach(x=>x.classList.remove('active'));b.classList.add('active');mode=b.dataset.mode;draw()});$('#sample').onclick=()=>{let d=getDist(),r=Math.random(),acc=0;for(let i=0;i<d.final.length;i++){acc+=d.final[i];if(r<=acc){chosen=ex.tokens[i];break}}draw()};$('#reset').onclick=()=>{$('#temp').value=1;$('#topP').value=1;$('#topK').value=10;$('#rep').value=1;$('#seed').value=42;chosen='—';updateControls()};updateControls();addEventListener('resize',draw);
+
+function promptAnalyze(){let t=$('#promptText').value,x=t.toLowerCase(),rules={Role:['you are','act as','expert','tutor'],Task:['explain','create','write','analyze','generate','summarize'],Context:['student','audience','context','background','based on'],Constraints:['under','must','avoid','only','maximum','minimum'],Output:['format','example','questions','points','json','table']};let html='<div class="summary">';for(let k in rules){let hit=rules[k].filter(a=>x.includes(a)).length,score=Math.min(100,Math.round(hit/rules[k].length*100+Math.min(30,t.length/30)));html+=`<div class="stat"><b>${score}%</b><span>${k}</span></div>`}html+='</div>';$('#promptReport').innerHTML=html;let words=t.trim()?t.trim().split(/\s+/):[],h=words.slice(0,50).map((w,i)=>{let cls=i%5;return `<div style="background:${['#173d67','#204d55','#463d69','#5b3d4d','#314b3c'][cls]};color:#fff">${escapeHtml(w)}</div>`}).join('');$('#heat').innerHTML=h||'<div style="grid-column:1/-1;color:#91a3bd">Enter a prompt to visualize its regions.</div>'}
+$('#analyzePrompt').onclick=promptAnalyze;promptAnalyze();
+
+const fields=[['Role','Expert teacher'],['Audience','First-year BCA students'],['Goal','Explain the topic clearly'],['Context','Beginner knowledge level'],['Examples','Use one practical example'],['Constraints','Simple language; under 300 words'],['Output','5 points + short quiz'],['Quality','Accurate and easy to verify']];
+$('#builderFields').innerHTML=fields.map((f,i)=>`<div class="mini"><b>${f[0]}</b><input id="bf${i}" value="${f[1]}"></div>`).join('');
+function gen(){let v=i=>$('#bf'+i).value.trim();$('#generated').textContent=`Role: ${v(0)}.\nAudience: ${v(1)}.\n\nTask: ${v(2)}.\nContext: ${v(3)}.\nExamples: ${v(4)}.\nConstraints: ${v(5)}.\nOutput: ${v(6)}.\nQuality criteria: ${v(7)}.`}$('#generatePrompt').onclick=gen;gen();
+
+const tech=[['Zero-shot','Task without examples'],['Few-shot','Demonstrate input/output patterns'],['Role prompting','Specify perspective or persona'],['Decomposition','Break complex work into stages'],['Structured output','Define response schema'],['Delimiters','Separate instructions from data'],['Grounding','Provide trusted source context'],['RAG','Retrieve relevant context'],['Tool use','Connect actions/functions'],['Self-critique','Evaluate against criteria'],['Iterative prompting','Test and revise prompts'],['Prompt injection defense','Treat untrusted text as data'],['Evaluation','Use representative test cases'],['Temperature','Control sampling sharpness'],['Top-P','Probability-mass filtering'],['Top-K','Candidate-count filtering'],['Max tokens','Output budget'],['Stop sequences','Stop generation markers'],['Seed','Reproducibility control when supported']];
+$('#techCards').innerHTML=tech.map(x=>`<div class="mini"><b>${x[0]}</b><span class="muted">${x[1]}</span></div>`).join('');
+function evalPrompt(){let t=$('#evalPrompt').value.toLowerCase(),checks=[['Task',/(explain|create|write|analyze|generate|summarize|solve)/],['Context',/(context|audience|student|background|given|based on)/],['Constraints',/(under|must|avoid|only|limit|maximum|minimum)/],['Output',/(format|json|table|bullet|points|sections|example)/],['Role',/(you are|act as|expert|tutor|developer)/],['Grounding',/(source|document|provided|according to)/],['Testability',/(criteria|verify|check|test|evaluate)/]];let score=0,rows=checks.map(c=>{let ok=c[1].test(t);if(ok)score+=1;return `<div class="item"><b>${ok?'✓':'○'} ${c[0]}</b><span class="muted">${ok?'Signal detected':'No strong signal detected'}</span></div>`}).join('');$('#score').innerHTML=`<div class="stat"><b>${Math.round(score/checks.length*100)}%</b><span>heuristic structure coverage</span></div><div class="list" style="margin-top:8px">${rows}</div>`}$('#eval').onclick=evalPrompt;evalPrompt();
+</script>
+</body>
+</html>
